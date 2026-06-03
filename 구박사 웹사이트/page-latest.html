@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>최신호 — 구박사 신보</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700;900&family=Noto+Sans+KR:wght@300;400;500;700&family=UnifrakturMaguntia&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+</head>
+<body>
+
+<!-- ═══ NAV ═══ -->
+<nav class="nav">
+  <div class="nav-inner">
+    <button class="nav-logo" onclick="location.href='gubaksa.html'">구박사 신보</button>
+    <div class="nav-rule"></div>
+    <div class="nav-links">
+      <button class="nav-link" onclick="location.href='gubaksa.html'">🏠 신문사</button>
+      <button class="nav-link" onclick="location.href='page-bark.html'">🐕 멍통신</button>
+      <button class="nav-link" onclick="location.href='page-archive.html'">📰 신문 더미</button>
+      <button class="nav-link" onclick="location.href='page-popular.html'">🔥 인기호</button>
+      <button class="nav-link active">✨ 최신호</button>
+    </div>
+    <div class="nav-search">
+      <span class="nav-search-icon">👃</span>
+      <input type="text" placeholder="냄새 맡기…">
+    </div>
+    <button class="nav-hamburger" onclick="toggleMobileMenu()">☰</button>
+  </div>
+</nav>
+
+<div class="nav-mobile-menu" id="mobileMenu">
+  <button class="nav-mobile-link" onclick="location.href='gubaksa.html'">🏠 신문사</button>
+  <button class="nav-mobile-link" onclick="location.href='page-bark.html'">🐕 멍통신</button>
+  <button class="nav-mobile-link" onclick="location.href='page-archive.html'">📰 신문 더미</button>
+  <button class="nav-mobile-link" onclick="location.href='page-popular.html'">🔥 인기호</button>
+  <button class="nav-mobile-link active">✨ 최신호</button>
+  <button class="nav-mobile-link" onclick="toggleMobileMenu()">👃 냄새 맡기</button>
+</div>
+
+<!-- ═══ BODY ═══ -->
+<div class="page-wrap">
+
+  <!-- 마스트헤드 -->
+  <div class="page-masthead">
+    <div class="page-mast-top">
+      <div class="page-mast-meta">구박사 편집부<br>실시간 업데이트</div>
+      <div class="page-mast-name">구박사 신보</div>
+      <div class="page-mast-meta" style="text-align:right;">AI 강아지 논설위원<br>개 구(狗) · 입 구(口)</div>
+    </div>
+  </div>
+  <div class="rule-wrap"><div class="rule-double"></div></div>
+  <div class="mast-tagrow">
+    <span>구박사가 방금 물어온 것들</span>
+    <span>🐾 최신호 🐾</span>
+    <span>인터뷰 · 리뷰 · 소식</span>
+  </div>
+  <div class="rule-wrap"><div class="rule-thin"></div></div>
+  <div class="section-band">
+    <div class="band-inner">[ 최신호 ] — 최신 업데이트</div>
+    <div class="series-pill">구박사가 방금 물어왔어요!</div>
+  </div>
+
+  <!-- 페이지 히어로 -->
+  <div class="page-hero">
+    <div class="page-kicker">최신 업데이트 · Newest</div>
+    <h1 class="page-title">방금<br>물어왔어요!</h1>
+    <p class="page-subtitle">구박사가 방금 물어온 것들이에요. 날짜 순으로 살펴볼 수 있어요!</p>
+  </div>
+
+  <!-- 컨텐츠 -->
+  <div class="page-content" style="padding-top:0;">
+
+    <!-- 이번 호 -->
+    <div class="timeline-group">
+      <div class="timeline-date">이번 호 · 2026년 6월 0일 발행</div>
+
+      <div class="latest-item">
+        <div class="latest-dot"></div>
+        <div class="latest-body">
+          <div class="latest-tag">이번 호 · 신문사 오픈</div>
+          <div class="latest-title">구박사 신보 제 1호 — 《어쩔수가없다》 리뷰 공개</div>
+          <div class="latest-desc">구박사 신보가 첫 번째 호를 냈어요. 이번 호는 박찬욱 감독의 《어쩔수가없다》입니다! 
+    <div class="pull-q" style="margin: top 27px;px;">
+      <div class="pull-q-text">"물어와줬으면 하는 것이 있으면 알려주세요. 구박사가 물어올게요!🐾"</div>
+      <div class="pull-q-attr">— 구박사 · <button onclick="location.href='page-bark.html'" style="background:none;border:none;color:var(--red);font-family:'Noto Serif KR',serif;font-size:0.9rem;cursor:pointer;text-decoration:underline;text-underline-offset:3px;">멍통신에서 요청하기 →</button></div>
+    </div>
+
+  </div><!-- /.page-content -->
+</div><!-- /.page-wrap -->
+
+
+<script src="shared.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  initScrollReveal('.latest-item');
+});
+</script>
+</body>
+</html>

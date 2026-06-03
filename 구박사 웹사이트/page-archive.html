@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>신문 더미 — 구박사 신보</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700;900&family=Noto+Sans+KR:wght@300;400;500;700&family=UnifrakturMaguntia&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+</head>
+<body>
+
+<!-- ═══ NAV ═══ -->
+<nav class="nav">
+  <div class="nav-inner">
+    <button class="nav-logo" onclick="location.href='gubaksa.html'">구박사 신보</button>
+    <div class="nav-rule"></div>
+    <div class="nav-links">
+      <button class="nav-link" onclick="location.href='gubaksa.html'">🏠 신문사</button>
+      <button class="nav-link" onclick="location.href='page-bark.html'">🐕 멍통신</button>
+      <button class="nav-link active">📰 신문 더미</button>
+      <button class="nav-link" onclick="location.href='page-popular.html'">🔥 인기호</button>
+      <button class="nav-link" onclick="location.href='page-latest.html'">✨ 최신호</button>
+    </div>
+    <div class="nav-search">
+      <span class="nav-search-icon">👃</span>
+      <input type="text" placeholder="냄새 맡기…">
+    </div>
+    <button class="nav-hamburger" onclick="toggleMobileMenu()">☰</button>
+  </div>
+</nav>
+
+<div class="nav-mobile-menu" id="mobileMenu">
+  <button class="nav-mobile-link" onclick="location.href='gubaksa.html'">🏠 신문사</button>
+  <button class="nav-mobile-link" onclick="location.href='page-bark.html'">🐕 멍통신</button>
+  <button class="nav-mobile-link active">📰 신문 더미</button>
+  <button class="nav-mobile-link" onclick="location.href='page-popular.html'">🔥 인기호</button>
+  <button class="nav-mobile-link" onclick="location.href='page-latest.html'">✨ 최신호</button>
+  <button class="nav-mobile-link" onclick="toggleMobileMenu()">👃 냄새 맡기</button>
+</div>
+
+<!-- ═══ BODY ═══ -->
+<div class="page-wrap">
+
+  <!-- 마스트헤드 -->
+  <div class="page-masthead">
+    <div class="page-mast-top">
+      <div class="page-mast-meta">구박사 편집부<br>지난 호 아카이브</div>
+      <div class="page-mast-name">구박사 신보</div>
+      <div class="page-mast-meta" style="text-align:right;">AI 강아지 논설위원<br>개 구(狗) · 입 구(口)</div>
+    </div>
+  </div>
+  <div class="rule-wrap"><div class="rule-double"></div></div>
+  <div class="mast-tagrow">
+    <span>구박사가 다뤄온 영화들</span>
+    <span>🐾 신문 더미 🐾</span>
+    <span>지난 호 전체 목록</span>
+  </div>
+  <div class="rule-wrap"><div class="rule-thin"></div></div>
+  <div class="section-band">
+    <div class="band-inner">[ 신문 더미 ] — 지난 호 아카이브</div>
+    <div class="series-pill">구박사가 물어온 영화들 · 매호 한 편씩 쌓아가기</div>
+  </div>
+
+  <!-- 페이지 히어로 -->
+  <div class="page-hero">
+    <div class="page-kicker">아카이브 · Archive</div>
+    <h1 class="page-title">신문 더미</h1>
+    <p class="page-subtitle">구박사가 지금까지 다룬 영화에요. 아직 안 읽은 호가 있다면, 지금 물어다 드릴게요.</p>
+  </div>
+
+
+  <!-- 카드 그리드 -->
+  <div class="page-content" style="padding-top:0;">
+    <div class="card-grid" id="issueGrid">
+
+      <!-- 이번 호 -->
+      <div class="issue-card current" data-tags="박찬욱 블랙코미디 스릴러 현재상영" onclick="location.href='gubaksa.html'">
+        <div class="issue-card-img">
+          <span class="issue-card-num">제 1호</span>
+          <img src="사진1.jpg" alt="어쩔수가없다" style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
+        <div class="issue-card-body">
+          <div class="issue-card-genre">블랙코미디 · 구직 스릴러</div>
+          <div class="issue-card-title">《어쩔수가없다》</div>
+          <div class="issue-card-dir">박찬욱 감독 · 이병헌 · 손예진</div>
+          <div class="issue-card-desc">25년 다닌 직장에서 하루아침에 잘린 사람의 이야기. 웃기면서 찝찝한, 박찬욱의 블랙코미디.</div>
+          <span class="issue-card-badge">현재 호 · 읽기</span>
+        </div>
+      </div>
+
+    </div><!-- /.card-grid -->
+
+    <div class="pull-q" style="margin-top:40px;">
+      <div class="pull-q-text">"구박사가 어떤 영화를 물어오면 좋을까요?"</div>
+      <div class="pull-q-attr">— 구박사가 묻습니다 · <button onclick="location.href='page-bark.html'" style="background:none;border:none;color:var(--red);font-family:'Noto Serif KR',serif;font-size:0.9rem;cursor:pointer;text-decoration:underline;text-underline-offset:3px;">멍통신에서 알려주세요</button></div>
+    </div>
+
+  </div><!-- /.page-content -->
+</div><!-- /.page-wrap -->
+
+<footer>
+  <strong>구박사 신보</strong> &nbsp;·&nbsp; 신문 더미 — 아카이브 &nbsp;·&nbsp; AI 강아지 논설위원<br>
+  🐾 &nbsp; 시네필 리뷰 · 평론가 해석 · 블로그 글 취합 — 영화를 보고 난 후의 경험을 함께하는 신문
+</footer>
+
+<style>
+.filter-btn {
+  background: none; border: 1px solid var(--border);
+  color: var(--ink-lt); font-family: 'Noto Sans KR', sans-serif;
+  font-size: 0.68rem; letter-spacing: 0.08em; padding: 5px 13px;
+  cursor: pointer; transition: all 0.15s;
+}
+.filter-btn:hover, .filter-btn.active {
+  background: var(--ink); color: var(--cream); border-color: var(--ink);
+}
+</style>
+
+<script src="shared.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  initScrollReveal('.issue-card');
+});
+
+function filterIssues(tag, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+
+  document.querySelectorAll('.issue-card').forEach(card => {
+    if (tag === 'all') {
+      card.style.display = '';
+    } else {
+      const tags = card.dataset.tags || '';
+      card.style.display = tags.includes(tag) ? '' : 'none';
+    }
+  });
+}
+
+function showComingSoon(card) {
+  const title = card.querySelector('.issue-card-title').textContent;
+  alert(`${title}\n🐾 구박사가 열심히 준비 중이에요!\n곧 물어다 드릴게요.`);
+}
+</script>
+</body>
+</html>

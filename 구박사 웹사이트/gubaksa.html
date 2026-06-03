@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>구박사 신보 — 다들 이렇게 봤대요</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700;900&family=Noto+Sans+KR:wght@300;400;500;700&family=UnifrakturMaguntia&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+<style>
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+/* ── TOKENS ── */
+:root {
+  --cream:   #f5f0e6;
+  --paper:   #ede6d2;
+  --paper2:  #e8dfc8;
+  --ink:     #1c1712;
+  --ink-mid: #3a3028;
+  --ink-lt:  #6e6252;
+  --red:     #9e1a20;
+  --gold:    #7a5f2e;
+  --border:  #c8b898;
+  --bdr-lt:  #ddd0b8;
+  --nav-h:   56px;
+}
+
+/* ── RESET ── */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--cream);
+  color: var(--ink);
+  font-family: 'Noto Serif KR', serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* grain overlay */
+body::after {
+  content:''; position:fixed; inset:0; pointer-events:none; z-index:9000;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='250' height='250'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='250' height='250' filter='url(%23n)' opacity='0.045'/%3E%3C/svg%3E");
+}
+
+/* ════════════════════════════════
+   NAV
+════════════════════════════════ */
+.nav {
+  position: fixed; top:0; left:0; right:0; z-index:8000;
+  background: var(--ink);
+  border-bottom: 2px solid var(--gold);
+  height: var(--nav-h);
+  display: flex;
+  align-items: center;
+}
+.nav-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex: 1;
+}
+.nav-link {
+  background: none; border: none;
+  color: #b0a080;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  padding: 6px 12px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color 0.16s, background 0.16s;
+  position: relative;
+}
+.nav-link::after {
+  content:''; position:absolute; bottom:0; left:12px; right:12px;
+  height:1px; background:var(--gold);
+  transform: scaleX(0); transition: transform 0.18s;
+}
+.nav-link:hover { color: var(--cream); }
+.nav-link:hover::after { transform: scaleX(1); }
+.nav-link.active { color: var(--cream); }
+.nav-link.active::after { transform: scaleX(1); }
+
+.nav-search {
+  margin-left: auto;
+  display: flex; align-items: center; gap: 8px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid #3a3028;
+  padding: 5px 12px;
+  flex-shrink: 0;
+}
+.nav-search input {
+  background: none; border: none; outline: none;
+  color: var(--cream);
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 0.72rem;
+  width: 140px;
+}
+.nav-search input::placeholder { color: #5a5040; }
+.nav-search-icon { color: #6a6050; font-size: 0.8rem; }
+
+/* mobile nav toggle */
+.nav-hamburger {
+  display: none;
+  background: none; border: none;
+  color: var(--cream);
+  font-size: 1.2rem;
+  cursor: pointer;
+  margin-left: auto;
+  padding: 4px;
+}
+.nav-mobile-menu {
+  display: none;
+  position: fixed; top: var(--nav-h); left:0; right:0; z-index:7900;
+  background: var(--ink);
+  border-bottom: 1px solid #3a3028;
+  flex-direction: column;
+  padding: 8px 0;
+}
+.nav-mobile-menu.open { display:flex; }
+.nav-mobile-link {
+  background:none; border:none;
+  color:#b0a080; font-family:'Noto Sans KR',sans-serif; font-size:0.82rem;
+  letter-spacing:0.1em; padding:12px 24px;
+  cursor:pointer; text-align:left; transition:color 0.16s;
+}
+.nav-mobile-link:hover { color:var(--cream); }
+
+@media(max-width:700px) {
+  .nav-links, .nav-search { display:none; }
+  .nav-hamburger { display:block; }
+}
+
+/* ════════════════════════════════
+   HERO / MASTHEAD
+════════════════════════════════ */
+.hero {
+  padding-top: var(--nav-h);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.masthead {
+  max-width: 1100px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 22px 24px 0;
+}
+.mast-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 5px;
+}
+.mast-meta {
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 0.62rem;
+  color: var(--ink-lt);
+  letter-spacing: 0.07em;
+  line-height: 1.8;
+}
+.mast-name {
+  font-family: 'UnifrakturMaguntia', cursive;
+  font-size: clamp(2.8rem, 8vw, 5.4rem);
+  color: var(--ink);
+  line-height: 1; text-align:center;
+  flex:1; padding: 0 16px;
+}
+.mast-tagrow {
+  max-width:1100px; margin:0 auto; width:100%; padding:0 24px;
+  display:flex; justify-content:space-between; align-items:center;
+  padding-top:3px; padding-bottom:4px;
+  font-family:'Noto Sans KR',sans-serif; font-size:0.61rem;
+  color:var(--ink-lt); letter-spacing:0.07em;
+}
+.rule-thick  { height:3px; background:var(--ink); }
+.rule-thin   { height:1px; background:var(--ink); }
+.rule-double { border-top:3px solid var(--ink); border-bottom:1px solid var(--ink); padding-bottom:3px; }
+.rule-wrap   { max-width:1100px; margin:0 auto; width:100%; padding:0 24px; }
+
+/* SECTION BAND */
+.section-band {
+  max-width:1100px; margin:0 auto; width:100%; padding:0 24px;
+}
+.band-inner {
+  background:var(--ink); color:var(--cream);
+  text-align:center; padding:5px 0; margin:6px 0;
+  font-family:'Noto Sans KR',sans-serif;
+  font-size:0.7rem; letter-spacing:0.28em; font-weight:500;
+}
+.series-pill {
+  display:flex; align-items:center; gap:10px;
+  padding:5px 0;
+  font-family:'Noto Sans KR',sans-serif; font-size:0.65rem;
+  color:var(--ink-lt); letter-spacing:0.08em;
+}
+.series-pill::before,.series-pill::after { content:''; flex:1; height:1px; background:var(--border); }
+
+/* HERO INTRO */
+.hero-intro {
+  max-width:1100px; margin:0 auto; width:100%;
+  padding:24px 24px 0;
+  flex:1;
+  display:flex; flex-direction:column; justify-content:center;
+}
+.hero-text {
+  text-align:center;
+  animation: fadeUp 0.7s ease both;
+}
+@keyframes fadeUp { from{opacity:0;transform:translateY(18px);} to{opacity:1;transform:none;} }
+
+.hero-paw { font-size:2.2rem; margin-bottom:10px; display:block; }
+.hero-h1 {
+  font-size: clamp(1.5rem, 3.5vw, 2.3rem);
+  font-weight:900; line-height:1.3;
+  letter-spacing:-0.02em; margin-bottom:12px;
+}
+.hero-body {
+  font-family:'Noto Serif KR',serif;
+  font-size:0.9rem; line-height:1.95;
+  color:var(--ink-mid); margin-bottom:20px;
+}
+.hero-scroll-cue {
+  display:inline-flex; align-items:center; gap:8px;
+  font-family:'Noto Sans KR',sans-serif; font-size:0.72rem;
+  color:var(--ink-lt); letter-spacing:0.12em;
+  background:none; border:none; cursor:pointer;
+  padding:8px 0;
+  animation: scrollBob 1.8s ease-in-out infinite;
+  transition: color 0.18s;
+}
+.hero-scroll-cue:hover { color:var(--red); }
+@keyframes scrollBob { 0%,100%{transform:translateY(0);} 50%{transform:translateY(5px);} }
+.scroll-arrow { font-size:1rem; }
+
+/* dog portrait centered */
+.hero-dog {
+  width: min(400px, 55vw);
+  margin: 60px auto 16px;
+  opacity: 0;
+  animation: dogFade 0.9s ease 0.3s both;
+  order: -1;
+}
+@keyframes dogFade { from{opacity:0;transform:translateX(20px);} to{opacity:1;transform:none;} }
+.hero-dog img {
+  width:100%; display:block;
+  filter: sepia(0.1) contrast(1.02);
+}
+.hero-relative { display:flex; flex-direction:column; align-items:center; max-width:800px; margin:0 auto; width:100%; padding:0 24px; }
+@media(max-width:680px) { .hero-dog { display:none; } }
+
+/* ════════════════════════════════
+   SCROLL INDICATOR BETWEEN SECTIONS
+════════════════════════════════ */
+.section-divider {
+  max-width:1100px; margin:0 auto; width:100%;
+  padding:32px 24px 28px;
+  display:flex; flex-direction:column; align-items:center; gap:10px;
+}
+.divider-label {
+  font-family:'Noto Sans KR',sans-serif; font-size:0.65rem;
+  letter-spacing:0.22em; text-transform:uppercase;
+  color:var(--ink-lt);
+}
+.divider-line {
+  width:1px; height:48px;
+  background: linear-gradient(to bottom, var(--border), transparent);
+}
+
+/* ════════════════════════════════
+   CURRENT ISSUE
+════════════════════════════════ */
+.current-issue {
+  background: var(--paper);
+  border-top: 3px double var(--ink);
+  padding: 0 0 60px;
+}
+.issue-header {
+  max-width:1100px; margin:0 auto;
+  padding: 20px 24px 0;
+}
+.issue-label-row {
+  display:flex; align-items:center; justify-content:space-between;
+  margin-bottom:14px;
+}
+.issue-label {
+  background:var(--ink); color:var(--cream);
+  font-family:'Noto Sans KR',sans-serif;
+  font-size:0.62rem; letter-spacing:0.22em;
+  padding:4px 12px; font-weight:500;
+}
+.issue-date {
+  font-family:'Noto Sans KR',sans-serif; font-size:0.62rem;
+  color:var(--ink-lt); letter-spacing:0.08em;
+}
+
+/* FILM CARD */
+.film-cards {
+  max-width:1100px; margin:0 auto;
+  padding:0 24px;
+  display:grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap:0;
+  border:1px solid var(--ink);
+  opacity:0;
+  transform:translateY(24px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.film-cards.visible { opacity:1; transform:none; }
+@media(max-width:620px) { .film-cards { grid-template-columns:1fr; } }
+
+.film-img-col {
+  border-right:1px solid var(--ink);
+  position:relative; overflow:hidden;
+  min-height:320px;
+}
+.film-img-col img {
+  width:100%; height:100%; object-fit:cover;
+  object-position:center top; display:block;
+  filter:sepia(0.15) contrast(1.03);
+}
+.film-img-caption {
+  position:absolute; bottom:0; left:0; right:0;
+  background:rgba(28,23,18,0.78);
+  color:#e8dfc8; font-family:'Noto Sans KR',sans-serif;
+  font-size:0.6rem; padding:5px 10px; letter-spacing:0.06em;
+}
+
+.film-text-col {
+  padding:22px 22px;
+  background:var(--paper2);
+  display:flex; flex-direction:column; justify-content:space-between;
+}
+
+.film-overline {
+  font-family:'Noto Sans KR',sans-serif; font-size:0.65rem;
+  letter-spacing:0.22em; text-transform:uppercase;
+  color:var(--red); font-weight:500; margin-bottom:5px;
+}
+.film-title {
+  font-size:clamp(1.8rem,4.5vw,2.8rem);
+  font-weight:900; line-height:1.15;
+  letter-spacing:-0.02em; margin-bottom:4px;
+}
+.film-subtitle {
+  font-family:'IM Fell English',serif; font-style:italic;
+  font-size:0.88rem; color:var(--ink-mid); margin-bottom:14px;
+}
+.film-cast {
+  border-top:1px solid var(--border); padding-top:10px;
+  font-family:'Noto Sans KR',sans-serif; font-size:0.67rem;
+  color:var(--ink-lt); letter-spacing:0.05em; line-height:1.9;
+  margin-bottom:18px;
+}
+.cast-lbl { font-weight:500; color:var(--ink-mid); display:block; margin-bottom:2px; }
+
+/* Q BOX inside film card */
+.q-box {
+  background:var(--ink); color:var(--cream); padding:14px 16px;
+}
+.q-lbl {
+  font-family:'Noto Sans KR',sans-serif; font-size:0.59rem;
+  letter-spacing:0.2em; text-transform:uppercase; color:#a09070; margin-bottom:6px;
+}
+.q-txt { font-size:0.93rem; font-weight:600; margin-bottom:11px; line-height:1.5; }
+.q-btns { display:flex; gap:8px; flex-wrap:wrap; }
+.q-btn {
+  background:transparent; border:1px solid #a09070; color:#f0e8d8;
+  padding:7px 14px; font-family:'Noto Serif KR',serif; font-size:0.8rem;
+  cursor:pointer; transition:all 0.16s;
+}
+.q-btn:hover { background:var(--cream); color:var(--ink); border-color:var(--cream); }
+
+/* ════════════════════════════════
+   MORE FILMS TEASER ROW
+════════════════════════════════ */
+.more-section {
+  max-width:1100px; margin:0 auto;
+  padding: 32px 24px 0;
+}
+.more-header {
+  display:flex; align-items:baseline; justify-content:space-between;
+  margin-bottom:14px;
+}
+.more-title {
+  font-family:'Noto Serif KR',serif;
+  font-size:1.1rem; font-weight:700;
+  letter-spacing:-0.01em;
+}
+.more-link {
+  font-family:'Noto Sans KR',sans-serif; font-size:0.7rem;
+  color:var(--red); letter-spacing:0.06em;
+  background:none; border:none; cursor:pointer;
+  text-decoration:underline; text-underline-offset:3px;
+}
+.more-link:hover { color:var(--ink); }
+.film-row {
+  display:grid;
+  grid-template-columns: repeat(3,1fr);
+  gap:12px;
+}
+@media(max-width:580px){ .film-row{ grid-template-columns:1fr 1fr; } }
+
+.film-mini {
+  border:1px solid var(--border);
+  background:white;
+  cursor:pointer;
+  transition:border-color 0.18s, box-shadow 0.18s;
+}
+.film-mini:hover { border-color:var(--ink); box-shadow:2px 2px 0 var(--ink); }
+.film-mini-img {
+  width:100%; aspect-ratio:4/3; overflow:hidden;
+  background:var(--paper2);
+  display:flex; align-items:center; justify-content:center;
+}
+.film-mini-placeholder {
+  font-size:2.5rem; opacity:0.3;
+}
+.film-mini-body { padding:10px 11px; }
+.film-mini-genre {
+  font-family:'Noto Sans KR',sans-serif; font-size:0.58rem;
+  letter-spacing:0.15em; color:var(--red); margin-bottom:3px;
+}
+.film-mini-title {
+  font-size:0.88rem; font-weight:700; margin-bottom:3px; line-height:1.3;
+}
+.film-mini-dir {
+  font-family:'Noto Sans KR',sans-serif; font-size:0.65rem; color:var(--ink-lt);
+}
+.film-mini-badge {
+  display:inline-block;
+  font-family:'Noto Sans KR',sans-serif; font-size:0.55rem;
+  letter-spacing:0.12em; padding:2px 6px;
+  background:var(--ink); color:var(--cream);
+  margin-top:5px;
+}
+
+/* ════════════════════════════════
+   ARTICLE SCREENS (기존 인터랙티브 파트)
+════════════════════════════════ */
+.screen { display:none; }
+.screen.active { display:block; }
+
+.art-wrap {
+  max-width:800px; margin:0 auto;
+  padding: 80px 24px 60px;
+}
+.back-nav {
+  display:flex; align-items:center; gap:6px;
+  font-family:'Noto Sans KR',sans-serif; font-size:0.72rem;
+  color:var(--ink-lt); cursor:pointer;
+  background:none; border:none;
+  padding:0 0 14px;
+  letter-spacing:0.06em; transition:color 0.16s;
+}
+.back-nav:hover { color:var(--red); }
+.breadcrumb {
+  font-family:'Noto Sans KR',sans-serif; font-size:0.61rem;
+  color:var(--ink-lt); letter-spacing:0.1em;
+  padding:5px 0 11px;
+  border-bottom:1px solid var(--bdr-lt); margin-bottom:14px;
+}
+.breadcrumb span { color:var(--red); }
+
+.art-kicker {
+  font-family:'Noto Sans KR',sans-serif; font-size:0.63rem;
+  letter-spacing:0.22em; text-transform:uppercase; color:var(--red); font-weight:500; margin-bottom:5px;
+}
+.art-headline {
+  font-size:clamp(1.6rem,4.5vw,2.5rem); font-weight:900; line-height:1.2;
+  letter-spacing:-0.02em; margin-bottom:8px;
+}
+.art-dek {
+  font-family:'IM Fell English',serif; font-style:italic;
+  font-size:1.0rem; color:var(--ink-mid); line-height:1.6;
+  border-left:3px solid var(--red); padding-left:12px; margin-bottom:10px;
+}
+.art-byline { font-family:'Noto Sans KR',sans-serif; font-size:0.65rem; color:var(--ink-lt); letter-spacing:0.08em; }
+
+.branch-q { background:var(--paper); border:1px solid var(--border); border-left:4px solid var(--red); padding:16px 18px; margin:18px 0; }
+.branch-q-text { font-size:1.0rem; font-weight:700; margin-bottom:12px; line-height:1.4; }
+.branch-btns { display:flex; flex-direction:column; gap:6px; }
+.branch-btn {
+  background:white; border:1px solid var(--border); color:var(--ink);
+  padding:9px 14px; font-family:'Noto Serif KR',serif; font-size:0.87rem;
+  cursor:pointer; text-align:left; transition:all 0.16s;
+  display:flex; align-items:center; gap:10px;
+}
+.branch-btn::before { content:'▸'; color:var(--red); font-size:0.72rem; flex-shrink:0; }
+.branch-btn:hover { background:var(--ink); color:var(--cream); border-color:var(--ink); }
+
+.c-block { border:1px solid var(--border); margin-bottom:12px; }
+.c-block-hd { background:var(--ink); color:var(--cream); padding:5px 14px; font-family:'Noto Sans KR',sans-serif; font-size:0.59rem; letter-spacing:0.2em; text-transform:uppercase; font-weight:500; }
+.c-block-bd { padding:13px 15px; }
+.c-title { font-size:0.97rem; font-weight:700; margin-bottom:7px; line-height:1.4; }
+.c-text { font-size:0.87rem; line-height:1.92; color:var(--ink-mid); }
+.dog-aside { background:var(--paper); border:1px solid var(--bdr-lt); border-left:3px solid var(--gold); padding:9px 13px; margin-top:10px; font-family:'Noto Sans KR',sans-serif; font-size:0.78rem; color:var(--ink-lt); line-height:1.7; }
+.pull-q { margin:16px 0; padding:14px 16px; border-top:3px solid var(--ink); border-bottom:1px solid var(--ink); }
+.pull-q-text { font-family:'IM Fell English',serif; font-style:italic; font-size:1.1rem; line-height:1.6; color:var(--ink); margin-bottom:5px; }
+.pull-q-attr { font-family:'Noto Sans KR',sans-serif; font-size:0.67rem; color:var(--ink-lt); letter-spacing:0.1em; }
+.s-rule { display:flex; align-items:center; gap:10px; margin:20px 0 14px; }
+.s-rule::before,.s-rule::after { content:''; flex:1; height:1px; background:var(--ink); }
+.s-rule-lbl { font-family:'Noto Sans KR',sans-serif; font-size:0.59rem; letter-spacing:0.2em; text-transform:uppercase; white-space:nowrap; color:var(--ink); }
+.iqa { margin:18px 0; border:1px solid var(--border); }
+.iqa-q { background:var(--paper); padding:11px 15px; font-size:0.9rem; font-weight:700; line-height:1.4; border-bottom:1px solid var(--border); }
+.iqa-btns { display:flex; flex-direction:column; }
+.iqa-btn { background:transparent; border:none; border-bottom:1px solid var(--bdr-lt); color:var(--ink-mid); padding:9px 15px; font-family:'Noto Serif KR',serif; font-size:0.84rem; cursor:pointer; text-align:left; transition:all 0.16s; }
+.iqa-btn:last-child { border-bottom:none; }
+.iqa-btn:hover,.iqa-btn.sel { background:var(--ink); color:var(--cream); }
+.resp-panel { display:none; padding:13px 15px; background:white; border-top:2px solid var(--gold); animation:fdIn 0.22s ease; }
+.resp-panel.open { display:block; }
+@keyframes fdIn { from{opacity:0;transform:translateY(4px);} to{opacity:1;} }
+.resp-lbl { font-family:'Noto Sans KR',sans-serif; font-size:0.59rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--gold); margin-bottom:7px; }
+.resp-txt { font-size:0.87rem; line-height:1.9; color:var(--ink-mid); }
+.sp-toggle { background:none; border:1px solid var(--border); color:var(--ink-lt); padding:8px 13px; font-family:'Noto Serif KR',serif; font-size:0.82rem; cursor:pointer; width:100%; text-align:left; margin:10px 0 0; display:flex; justify-content:space-between; transition:all 0.16s; }
+.sp-toggle:hover { border-color:var(--ink); color:var(--ink); }
+.sp-content { display:none; padding:12px 14px; background:var(--paper); border:1px solid var(--border); border-top:none; font-size:0.87rem; line-height:1.9; color:var(--ink-mid); margin-bottom:10px; }
+.sp-content.open { display:block; }
+.chips { display:flex; flex-wrap:wrap; gap:5px; margin:10px 0; }
+.chip { font-family:'Noto Sans KR',sans-serif; font-size:0.7rem; padding:3px 9px; border:1px solid var(--border); color:var(--ink-lt); letter-spacing:0.04em; }
+.bot-nav { margin-top:28px; padding-top:14px; border-top:2px solid var(--ink); }
+.bot-nav-lbl { font-family:'Noto Sans KR',sans-serif; font-size:0.61rem; letter-spacing:0.14em; text-transform:uppercase; color:var(--ink-lt); margin-bottom:7px; }
+.bot-nav-links { display:flex; flex-wrap:wrap; gap:14px; }
+.nl-btn { background:none; border:none; color:var(--red); font-family:'Noto Serif KR',serif; font-size:0.84rem; cursor:pointer; padding:0; text-decoration:underline; text-underline-offset:3px; }
+.nl-btn:hover { color:var(--ink); }
+.hl  { color:var(--red); font-style:italic; }
+.hl2 { color:var(--gold); }
+
+/* ════════════════════════════════
+   FOOTER
+════════════════════════════════ */
+footer {
+  background:var(--ink); color:#7a6e5e;
+  border-top:3px double var(--gold);
+  text-align:center; padding:24px 24px;
+  font-family:'Noto Sans KR',sans-serif;
+  font-size:0.65rem; line-height:1.9; letter-spacing:0.07em;
+}
+footer strong { color:#b0a080; font-family:'Pretendard',sans-serif; }
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════════
+     NAV
+════════════════════════════════ -->
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="nav-links">
+      <button class="nav-link active" onclick="showHome()">🏠 신문사</button>
+      <button class="nav-link" onclick="location.href='page-bark.html'">🐕 멍통신</button>
+      <button class="nav-link" onclick="location.href='page-archive.html'">📰 신문 더미</button>
+      <button class="nav-link" onclick="location.href='page-popular.html'">🔥 인기호</button>
+      <button class="nav-link" onclick="location.href='page-latest.html'">✨ 최신호</button>
+    </div>
+    <div class="nav-search">
+      <span class="nav-search-icon">👃</span>
+      <input type="text" placeholder="냄새 맡기…">
+    </div>
+    <button class="nav-hamburger" onclick="toggleMobileMenu()">☰</button>
+  </div>
+</nav>
+
+<!-- 모바일 메뉴 -->
+<div class="nav-mobile-menu" id="mobileMenu">
+  <button class="nav-mobile-link" onclick="showHome();toggleMobileMenu()">🏠 신문사</button>
+  <button class="nav-mobile-link" onclick="location.href='page-bark.html'">🐕 멍통신</button>
+  <button class="nav-mobile-link" onclick="location.href='page-archive.html'">📰 신문 더미</button>
+  <button class="nav-mobile-link" onclick="location.href='page-popular.html'">🔥 인기호</button>
+  <button class="nav-mobile-link" onclick="location.href='page-latest.html'">✨ 최신호</button>
+  <button class="nav-mobile-link" onclick="toggleMobileMenu()">👃 냄새 맡기</button>
+</div>
+
+<!-- ════════════════════════════════
+     HOME (HERO + CURRENT ISSUE)
+════════════════════════════════ -->
+<div id="page-home">
+
+  <!-- HERO -->
+  <section class="hero" id="top">
+    <div class="masthead">
+      <div class="mast-top">
+        <div class="mast-meta">구박사 편집부<br>매호 발행</div>
+        <div class="mast-name">구박사 신보</div>
+        <div class="mast-meta" style="text-align:right;">AI 강아지 논설위원<br>개 구(狗) · 입 구(口)</div>
+      </div>
+    </div>
+    <div class="rule-wrap"><div class="rule-double"></div></div>
+    <div class="mast-tagrow">
+      <span>영화를 보고 난 후의 경험을 함께하는 신문</span>
+      <span>🐾 다들 이렇게 봤대요 🐾</span>
+      <span>AI 강아지의 시네필 · 평론가 · 블로그 모음zip</span>
+    </div>
+    <div class="rule-wrap"><div class="rule-thin"></div></div>
+
+    <div class="section-band">
+      <div class="band-inner">[ 다들 이렇게 봤대요 ] — 연재 코너</div>
+      <div class="series-pill">사람들이 영화를 어떻게 보고 느꼈는지를 한곳에!</div>
+    </div>
+
+    <!-- hero text + dog -->
+    <div class="hero-relative">
+      <div class="hero-text" style="padding-top:42px; padding-bottom:50px; position:relative; z-index:2;">
+        <span class="hero-paw">🐾</span>
+        <h1 class="hero-h1">평점 높고 유명한 영화를 봤는데,<br>무슨 이야기인지 모르겠던 적 있으신가요?</h1>
+        <p class="hero-body">
+          안녕하세요, 구박사예요. 개 구(狗)자에 입 구(口)자, 둘 다 써요.<br>
+          AI 강아지인데, 사람들이 영화 보고 나서 하는 말들을 물어다 드리는 게 구박사 일이거든요.<br><br>
+          영화가 어려웠다면 함께 이해하고, 여운이 남았다면 더 깊이 들여다보고,<br>이야기를 나누고 싶다면 공론장에서 편하게 대화해봐요.
+        </p>
+        <button class="hero-scroll-cue" onclick="document.getElementById('current-issue').scrollIntoView({behavior:'smooth'})">
+          <span>이번 호 리뷰 영화 보기</span>
+          <span class="scroll-arrow">↓</span>
+        </button>
+      </div>
+      <div class="hero-dog">
+        <img src="사진0.png" alt="구박사 강아지" />
+      </div>
+    </div>
+  </section>
+
+  <!-- SCROLL DIVIDER -->
+  <div class="section-divider">
+    <div class="divider-label">이번 호</div>
+    <div class="divider-line"></div>
+  </div>
+
+  <!-- CURRENT ISSUE -->
+  <section class="current-issue" id="current-issue">
+    <div class="issue-header">
+      <div class="issue-label-row">
+        <span class="issue-label">이번 호 리뷰 영화</span>
+     
+      </div>
+    </div>
+
+    <div class="film-cards" id="filmCard">
+      <!-- 왼쪽: 구박사 이미지 -->
+      <div class="film-img-col">
+        <img src="사진1.jpg" alt="구박사">
+      </div>
+      <!-- 오른쪽: 영화 정보 + 질문 -->
+      <div class="film-text-col">
+        <div>
+          <div class="film-overline"></div>
+          <div class="film-title">《어쩔수가없다》</div>
+          <div class="film-subtitle">Can't Help It</div>
+          <div class="film-cast">
+            <span class="cast-lbl">감독 · 출연</span>
+            박찬욱 감독<br>
+            이병헌 · 손예진 · 이성민 · 차승원 · 박희순
+          </div>
+        </div>
+        <div class="q-box">
+          <div class="q-lbl">
+          <div class="q-txt">어쩔 수가 없다 영화 본 이후의 경험을 알고 싶나요? 🐾</div>
+          <div class="q-btns">
+            <button class="q-btn" onclick="go('seen')">알고 싶어요</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 지난 호 미니 카드 -->
+  <div class="more-section" style="padding-bottom: 80px;">
+    <div class="rule-thin" style="margin-bottom:28px;"></div>
+    <div class="more-header">
+      <span class="more-title">신문 더미 — 앞으로 물어올 이야기들</span>
+      <button class="more-link" onclick="location.href='page-archive.html'">전체 보기 →</button>
+    </div>
+    <div class="film-row">
+      <div class="film-mini">
+        <div class="film-mini-img"><span class="film-mini-placeholder">🎬</span></div>
+        <div class="film-mini-body">
+          <div class="film-mini-genre">드라마</div>
+          <div class="film-mini-title">다음 호 예정</div>
+          <div class="film-mini-dir">구박사가 물어오는 중…</div>
+          <span class="film-mini-badge">COMING SOON</span>
+        </div>
+      </div>
+      <div class="film-mini">
+        <div class="film-mini-img"><span class="film-mini-placeholder">🎬</span></div>
+        <div class="film-mini-body">
+          <div class="film-mini-genre">스릴러</div>
+          <div class="film-mini-title">다음 호 예정</div>
+          <div class="film-mini-dir">구박사가 물어오는 중…</div>
+          <span class="film-mini-badge">COMING SOON</span>
+        </div>
+      </div>
+      <div class="film-mini">
+        <div class="film-mini-img"><span class="film-mini-placeholder">🎬</span></div>
+        <div class="film-mini-body">
+          <div class="film-mini-genre">SF</div>
+          <div class="film-mini-title">다음 호 예정</div>
+          <div class="film-mini-dir">구박사가 물어오는 중…</div>
+          <span class="film-mini-badge">COMING SOON</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /#page-home -->
+
+<!-- ════════════════════════════════
+     ARTICLE SCREENS
+════════════════════════════════ -->
+
+<!-- SEEN -->
+<div id="screen-seen" class="screen">
+<div class="art-wrap">
+  <button class="back-nav" onclick="showHome()">← 구박사 신보 표지로</button>
+  <div class="rule-thick"></div>
+  <div class="breadcrumb">구박사 신보 &nbsp;›&nbsp; <span>[다들 이렇게 봤대요]</span> &nbsp;›&nbsp; 《어쩔수가없다》</div>
+  <div class="art-kicker">봤군요!</div>
+  <h2 class="art-headline">보고 나서<br>어떠셨어요?</h2>
+  <p class="art-dek">구박사가 다른 사람들이 어떻게 봤는지 물어다 드릴게요. 어떤 느낌이었는지 좀 더 알아야, 맞는 걸 가져올 수 있거든요. 🐾</p>
+  <div class="art-byline">구박사 논설위원 · 시네필 리뷰 취합본</div>
+  <div style="height:12px;"></div>
+  <div class="rule-thin"></div>
+  <div class="branch-q">
+    <div class="branch-q-text">영화를 보고 난 느낌이 어땠어요?</div>
+    <div class="branch-btns">
+      <button class="branch-btn" onclick="go('understood')">이해는 됐어요 — 뭔가 더 있는 것 같긴 한데</button>
+      <button class="branch-btn" onclick="go('vibe')">느낌은 왔는데 — 뭔지 잘 모르겠어요</button>
+      <button class="branch-btn" onclick="go('lost')">솔직히 잘 모르겠어요 — 뭘 봤는지</button>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- UNDERSTOOD -->
+<div id="screen-understood" class="screen">
+<div class="art-wrap">
+  <button class="back-nav" onclick="go('seen')">← 이전으로</button>
+  <div class="rule-thick"></div>
+  <div class="breadcrumb">구박사 신보 &nbsp;›&nbsp; <span>[다들 이렇게 봤대요]</span> &nbsp;›&nbsp; 《어쩔수가없다》 &nbsp;›&nbsp; 숨겨진 디테일</div>
+  <div class="art-kicker">이런 디테일, 알고 계셨나요</div>
+  <h2 class="art-headline">그럼 이건<br>보셨나요?</h2>
+  <p class="art-dek">이해가 됐다고 하셨는데, 박찬욱은 구석구석 숨겨놨거든요. 다들 두 번째 볼 때 알아채는 것들이에요.</p>
+  <div class="art-byline">구박사 논설위원 · 시네필 리뷰 취합본</div>
+  <div style="height:12px;"></div><div class="rule-thin"></div>
+  <div class="c-block"><div class="c-block-hd">복선 01</div><div class="c-block-bd"><div class="c-title">정원에 이미 뭔가 묻혀 있었어요</div><p class="c-text">만수가 살인을 저지르기 전부터, 정원에는 이미 무언가가 묻혀 있었어요. 바로 아들 시원이 가족을 돕기 위해 훔친 휴대폰이에요. 영화는 살인에 앞서 '묻기'의 이미지를 먼저 보여줌으로써, 정원이 앞으로 비밀과 죄책감을 품을 공간임을 암시해요.</p><div class="dog-aside">🐾 구박사는 이 복선을 두 번째 볼 때에야 알아챘어요. 첫 번째엔 그냥 흙 파는 장면인 줄 알았거든요.</div></div></div>
+  <div class="c-block"><div class="c-block-hd">복선 02</div><div class="c-block-bd"><div class="c-title">나뭇가지를 부러뜨리는 장면</div><p class="c-text">만수가 나뭇가지를 억지로 휘게 하려다 부러뜨리는 장면이 있어요. 세상을 관리하는 것만으로는 원하는 결과를 얻을 수 없으며, 결국 <span class="hl">파괴적인 방식으로 문제를 해결할 것임</span>을 암시하는 복선이에요.</p></div></div>
+  <div class="c-block"><div class="c-block-hd">상징 03</div><div class="c-block-bd"><div class="c-title">치아 뽑는 장면의 진짜 의미</div><p class="c-text">마지막 살인 직후, 만수는 마취도 없이 펜치로 이를 직접 뽑아요. <span class="hl">도덕성과 죄책감이 뿌리째 뽑히는 이미지</span>로 완성돼요. 딸의 마지막 대사 "뿌리부터 썩어버렸어"가 이 모든 걸 하나로 묶어줘요.</p></div></div>
+  <div class="s-rule"><span class="s-rule-lbl">구박사가 묻습니다</span></div>
+  <div class="iqa">
+    <div class="iqa-q">세 명의 피해자가 사실 만수의 '분신'이라는 해석은요?</div>
+    <div class="iqa-btns">
+      <button class="iqa-btn" onclick="showResp('r-knew',this)">알고 있었어요</button>
+      <button class="iqa-btn" onclick="showResp('r-new',this)">처음 들어요</button>
+      <button class="iqa-btn" onclick="showResp('r-doubt',this)">동의 안 해요</button>
+    </div>
+    <div id="r-knew" class="resp-panel"><div class="resp-lbl">🐾 알고 계셨군요!</div><p class="resp-txt">만수는 <span class="hl">될 수 있었지만 되지 못한 가능성들</span>을 차례로 제거해 나가요. 그 가능성들을 모두 지운 뒤 혼자 남는 것 — 그것이 만수가 선택한 '어쩔 수 없는' 생존의 방식이에요.</p></div>
+    <div id="r-new" class="resp-panel"><div class="resp-lbl">🐾 박찬욱 감독이 직접 한 말이에요</div><p class="resp-txt">구범모는 절대 되고 싶지 않은 최악의 자아, 고시조는 됐을 수도 있었지만 선택하지 못한 가능성, 최선출은 현재 자기 자신과의 정면충돌이에요. <span class="hl">자기 자신을 파괴하는 것과 다르지 않으니까요.</span></p></div>
+    <div id="r-doubt" class="resp-panel"><div class="resp-lbl">🐾 멍... 좋은 시각이에요</div><p class="resp-txt">실제로 다들 이 해석에 동의하는 건 아니에요. 영화가 어떤 의도를 가졌든, 관객이 어떻게 읽느냐도 영화의 일부니까요.</p></div>
+  </div>
+  <div class="bot-nav"><div class="bot-nav-lbl">다른 시각으로 보기</div><div class="bot-nav-links"><button class="nl-btn" onclick="go('vibe')">느낌은 왔는데 뭔지 모르겠다면</button><button class="nl-btn" onclick="go('miri')">미리가 진짜 주인공이라는 얘기 보기</button></div></div>
+</div>
+</div>
+
+<!-- VIBE -->
+<div id="screen-vibe" class="screen">
+<div class="art-wrap">
+  <button class="back-nav" onclick="go('seen')">← 이전으로</button>
+  <div class="rule-thick"></div>
+  <div class="breadcrumb">구박사 신보 &nbsp;›&nbsp; <span>[다들 이렇게 봤대요]</span> &nbsp;›&nbsp; 《어쩔수가없다》 &nbsp;›&nbsp; 느낌과 해석</div>
+  <div class="art-kicker">느낌은 왔는데…</div>
+  <h2 class="art-headline">뭔가 묵직한 게<br>남은 것 같죠?</h2>
+  <p class="art-dek">맞아요. 이 영화는 설명하지 않아요. 그냥 보여줘요. 말로 표현하기 어려운 게 오히려 정상이에요.</p>
+  <div class="art-byline">구박사 논설위원 · 평론가 리뷰 취합본</div>
+  <div style="height:12px;"></div><div class="rule-thin"></div>
+  <div class="pull-q"><div class="pull-q-text">"눈이 시리게 웃기고 서글픈 신자유주의의 푸른 멍"</div><div class="pull-q-attr">— 정재현 평론가</div></div>
+  <p class="c-text" style="margin-bottom:14px;">'푸른 멍'이라는 표현이 인상적이에요. 어디서 생겼는지도 모르는 사이에 생긴 상처. 웃고 있는 동안은 몰랐다가, 나중에야 상처가 남았다는 걸 알게 되는 것. 이게 블랙 코미디의 효과예요.</p>
+  <div class="c-block"><div class="c-block-hd">키워드 읽기</div><div class="c-block-bd"><div class="c-title">"어쩔수가없다"는 변명이 될 수 있다</div><p class="c-text">이 말은 끊임없이 반복돼요. 만수를 해고하는 회사도, 미리도, 살인을 저지르는 만수도 모두 같은 말을 내뱉어요. 이동진 평론가는 이 영화를 <span class="hl">"어쩔 수 없다고 내세우는 자들이 만들어낸 실낙원의 통렬한 순환"</span>이라고 했어요.</p></div></div>
+  <div class="c-block"><div class="c-block-hd">왜 코미디인가</div><div class="c-block-bd"><div class="c-title">웃었다가 찝찝해지는 이유</div><p class="c-text">박찬욱이 블랙코미디를 택한 이유는 바로 <span class="hl">그 안전한 거리를 없애기 위해서예요.</span></p><div class="dog-aside">🐾 멍멍... 구박사도 웃었다가 찝찝했어요. 집에 와서도 한참 생각했거든요.</div></div></div>
+  <div class="s-rule"><span class="s-rule-lbl">구박사가 묻습니다</span></div>
+  <div class="iqa">
+    <div class="iqa-q">그 찝찝한 감정, 어디서 왔을 것 같으세요?</div>
+    <div class="iqa-btns">
+      <button class="iqa-btn" onclick="showResp('v-judge',this)">만수에게 공감했다는 게 찝찝해서</button>
+      <button class="iqa-btn" onclick="showResp('v-system',this)">구조적 문제가 보여서 답답해서</button>
+      <button class="iqa-btn" onclick="showResp('v-miri',this)">미리가 계속 마음에 걸려서</button>
+    </div>
+    <div id="v-judge" class="resp-panel"><div class="resp-lbl">🐾 그게 박찬욱의 의도예요</div><p class="resp-txt">공감했다는 게 찝찝하다면, 영화가 제대로 작동한 거예요. 이해할 수 있다는 것과 정당화될 수 있다는 건 다른 문제예요.</p></div>
+    <div id="v-system" class="resp-panel"><div class="resp-lbl">🐾 맞아요, 진짜 악당은 화면 밖에 있어요</div><p class="resp-txt"><span class="hl">우리가 싸워야 할 대상은 옆자리의 경쟁자가 맞는 걸까요?</span> 화면 안에는 실직자들끼리의 경쟁만 남아요.</p></div>
+    <div id="v-miri" class="resp-panel"><div class="resp-lbl">🐾 미리 얘기, 더 해드릴게요</div><p class="resp-txt">미리의 '어쩔수가없다'가 이 영화에서 <span class="hl">가장 비극적인 문장</span>일지도 모른다는 해석이 있어요.</p><button class="nl-btn" onclick="go('miri')" style="margin-top:8px;">미리에 대한 이야기 더 보기 →</button></div>
+  </div>
+  <div class="bot-nav"><div class="bot-nav-lbl">다른 시각으로</div><div class="bot-nav-links"><button class="nl-btn" onclick="go('understood')">디테일과 복선 보기</button><button class="nl-btn" onclick="go('lost')">처음부터 줄거리 정리</button></div></div>
+</div>
+</div>
+
+<!-- LOST -->
+<div id="screen-lost" class="screen">
+<div class="art-wrap">
+  <button class="back-nav" onclick="go('seen')">← 이전으로</button>
+  <div class="rule-thick"></div>
+  <div class="breadcrumb">구박사 신보 &nbsp;›&nbsp; <span>[다들 이렇게 봤대요]</span> &nbsp;›&nbsp; 《어쩔수가없다》 &nbsp;›&nbsp; 줄거리 정리</div>
+  <div class="art-kicker">괜찮아요, 구박사도 처음엔 그랬어요</div>
+  <h2 class="art-headline">같이<br>다시 보자면요.</h2>
+  <p class="art-dek">어렵게 느껴졌다면 당연한 거예요. 이 영화 설명 안 해주거든요. 같이 한번 정리해볼게요. 🐾</p>
+  <div class="art-byline">구박사 논설위원 · 줄거리 정리</div>
+  <div style="height:12px;"></div><div class="rule-thin"></div>
+  <div class="c-block"><div class="c-block-hd">한 줄 요약</div><div class="c-block-bd"><div class="c-title">25년 다닌 직장에서 하루아침에 잘린 사람의 이야기</div><p class="c-text">태양제지에서 25년 일한 유만수(이병헌)가 구조조정으로 해고돼요. 회사는 "어쩔 수 없다"는 말을 남기고 그를 내보내요. 재취업을 위해 경쟁하다가, 결국 경쟁자들을 하나씩 제거하는 선택을 해요.</p></div></div>
+  <button class="sp-toggle" onclick="toggleSp('s-end')"><span>⚠ 결말 보기 (스포일러)</span><span id="s-end-arr">▾</span></button>
+  <div id="s-end" class="sp-content">만수의 계획은 모두 성공해요. 하지만 가족 대부분이 살인을 알고 침묵을 합의한 상태예요. 집에는 싸늘한 공기가 맴돌아요. 취직한 공장은 이미 자동화가 끝난 공간. 딸 리원은 마당의 나무를 보며 "뿌리부터 썩어버렸어"라고 해요.</div>
+  <div class="c-block"><div class="c-block-hd">왜 이해하기 어려울 수 있냐면</div><div class="c-block-bd"><div class="c-title">박찬욱은 이유를 설명하지 않아요</div><p class="c-text">왜 살인까지 저질렀는지 영화는 설명하지 않아요. <span class="hl">관객이 그 간극을 상상하게 만든 거예요.</span></p></div></div>
+  <div class="chips"><span class="chip">구직 스릴러</span><span class="chip">블랙코미디</span><span class="chip">가부장제</span><span class="chip">자동화와 실직</span><span class="chip">어쩔 수 없음의 순환</span></div>
+  <div class="s-rule"><span class="s-rule-lbl">구박사가 묻습니다</span></div>
+  <div class="iqa">
+    <div class="iqa-q">이 중에서 가장 더 알고 싶은 게 뭐예요?</div>
+    <div class="iqa-btns">
+      <button class="iqa-btn" onclick="showResp('l-why',this)">만수가 왜 그랬는지</button>
+      <button class="iqa-btn" onclick="showResp('l-symbol',this)">정원, 분재, 치아 같은 상징들</button>
+      <button class="iqa-btn" onclick="showResp('l-miri',this)">가족, 특히 미리는 어떤 사람인지</button>
+    </div>
+    <div id="l-why" class="resp-panel"><div class="resp-lbl">🐾 이게 이 영화의 핵심 질문이에요</div><p class="resp-txt">만수에게 특수용지 기술자라는 직업은 25년 동안 자신을 규정해 온 정체성이에요. <span class="hl">이것이 과연 가족을 위한 선택이었는지, 자존심을 지키기 위한 것이었는지</span> — 영화는 답을 주지 않아요.</p></div>
+    <div id="l-symbol" class="resp-panel"><div class="resp-lbl">🐾 상징들 보기</div><p class="resp-txt">정원은 만수의 심리 투영이에요. 끝내 나뭇가지를 부러뜨려요. 치아를 마취 없이 뽑는 장면은 — 도덕성이 <span class="hl">뿌리째 뽑히는</span> 이미지예요. 딸의 마지막 대사 "뿌리부터 썩어버렸어"가 모든 걸 하나로 묶어줘요.</p></div>
+    <div id="l-miri" class="resp-panel"><div class="resp-lbl">🐾 진짜 주인공은 미리일 수도 있어요</div><p class="resp-txt">미리는 만수가 실직 사실을 털어놓자, 조용히 현실적인 대책을 마련해요. 만수가 '가장'이라는 정체성에 집착하는 동안, 미리는 실제로 가정을 지켜내고 있었어요.</p><button class="nl-btn" onclick="go('miri')" style="margin-top:8px;">미리 이야기 더 보기 →</button></div>
+  </div>
+  <div class="bot-nav"><div class="bot-nav-lbl">이제 다른 것도</div><div class="bot-nav-links"><button class="nl-btn" onclick="go('vibe')">느낌은 왔는데 뭔지 모를 때</button><button class="nl-btn" onclick="go('understood')">숨겨진 디테일 보기</button></div></div>
+</div>
+</div>
+
+<!-- MIRI -->
+<div id="screen-miri" class="screen">
+<div class="art-wrap">
+  <button class="back-nav" id="miri-back" onclick="go('vibe')">← 이전으로</button>
+  <div class="rule-thick"></div>
+  <div class="breadcrumb">구박사 신보 &nbsp;›&nbsp; <span>[다들 이렇게 봤대요]</span> &nbsp;›&nbsp; 《어쩔수가없다》 &nbsp;›&nbsp; 인물 분석</div>
+  <div class="art-kicker">구박사가 선정한 인물</div>
+  <h2 class="art-headline">진짜 주인공은<br>사실 미리다?</h2>
+  <p class="art-dek">박찬욱 감독은 "이병헌보다 훨씬 어려운 인물을 연기했다"며 손예진의 미리를 '미묘한 표현의 대가'라고 불렀어요.</p>
+  <div class="art-byline">구박사 논설위원 · 인물 분석</div>
+  <div style="height:12px;"></div><div class="rule-thin"></div>
+  <div class="c-block"><div class="c-block-hd">미리가 한 일들</div><div class="c-block-bd"><div class="c-title">만수가 하지 못한 모든 것</div><p class="c-text">만수가 실직 사실을 털어놓자, 미리는 남편을 다독이는 동시에 조용히 현실적인 대책을 마련해요. 취미 생활을 접고, 지출을 줄이고, 물건을 내다 팔고, 직접 일자리를 찾아요. 만수가 '가장'이라는 정체성에 집착하며 극단으로 나아갈 때, 미리는 현실을 받아들이고 가정을 지켜냈어요.</p></div></div>
+  <div class="c-block"><div class="c-block-hd">침묵의 선택</div><div class="c-block-bd"><div class="c-title">미리의 '어쩔수가없다'가 가장 비극적인 이유</div><p class="c-text">만수의 "어쩔 수 없다"가 <span class="hl">자존심과 체면을 지키기 위한 것</span>이었다면, 미리의 "어쩔 수 없다"는 <span class="hl2">가족을 지키기 위한 결단</span>이에요. 끊임없이 대화를 시도했던 그녀를, 가부장제와 만수는 외면했어요.</p><div class="dog-aside">🐾 손예진 배우 장면마다 집중하게 됐어요. 말보다 표정이 더 많은 걸 말하고 있거든요.</div></div></div>
+  <div class="s-rule"><span class="s-rule-lbl">구박사도 모르겠어요</span></div>
+  <div class="pull-q" style="border-top-color:var(--red);"><div class="pull-q-text">가족을 파탄낸 건 실직 그 자체가 아니라, 이 상황을 반드시 남자 혼자 해결해야 한다는 믿음이었던 건 아닐까요?</div><div class="pull-q-attr">— 구박사</div></div>
+  <div class="bot-nav"><div class="bot-nav-lbl">계속 보기</div><div class="bot-nav-links"><button class="nl-btn" onclick="go('vibe')">느낌은 왔는데 뭔지 모를 때</button><button class="nl-btn" onclick="go('understood')">숨겨진 디테일 보기</button><button class="nl-btn" onclick="go('lost')">처음부터 다시 보기</button></div></div>
+</div>
+</div>
+
+<!-- NO WATCH -->
+<div id="screen-nowatch" class="screen">
+<div class="art-wrap">
+  <button class="back-nav" onclick="showHome()">← 구박사 신보 표지로</button>
+  <div class="rule-thick"></div>
+  <div class="breadcrumb">구박사 신보 &nbsp;›&nbsp; <span>[다들 이렇게 봤대요]</span> &nbsp;›&nbsp; 《어쩔수가없다》 &nbsp;›&nbsp; 관람 가이드</div>
+  <div class="art-kicker">스포는 최소한으로</div>
+  <h2 class="art-headline">그래도<br>이것만은요.</h2>
+  <p class="art-dek">안 보셨으면 큰 내용은 아껴둘게요. 그래도 보기 전에 알면 더 재밌는 것들만요. 🐾</p>
+  <div class="art-byline">구박사 논설위원 · 관람 가이드</div>
+  <div style="height:12px;"></div><div class="rule-thin"></div>
+  <div class="c-block"><div class="c-block-hd">장르가 독특해요</div><div class="c-block-bd"><div class="c-title">박찬욱인데 복수극이 아니에요</div><p class="c-text">박찬욱 감독 하면 복수 삼부작이 떠오르죠. 그런데 이번엔 <span class="hl">구직 스릴러</span>를 택했어요. 25년 다닌 회사에서 하루아침에 해고된 직장인의 이야기예요.</p></div></div>
+  <div class="c-block"><div class="c-block-hd">웃긴데 찝찝할 거예요</div><div class="c-block-bd"><div class="c-title">블랙 코미디의 불편한 쾌감</div><p class="c-text">보다 보면 웃게 돼요. 그런데 어느 순간 '내가 지금 왜 웃지?' 하는 순간이 와요. 그 찝찝함이 이 영화가 남기는 거예요.</p><div class="dog-aside">🐾 구박사도 집에 와서 한참 생각했어요. 꼬리가 축 처졌거든요.</div></div></div>
+  <div class="s-rule"><span class="s-rule-lbl">구박사가 묻습니다</span></div>
+  <div class="iqa">
+    <div class="iqa-q">보고 싶어지셨나요?</div>
+    <div class="iqa-btns">
+      <button class="iqa-btn" onclick="showResp('nw-yes',this)">네, 볼 것 같아요</button>
+      <button class="iqa-btn" onclick="showResp('nw-maybe',this)">아직 모르겠어요</button>
+    </div>
+    <div id="nw-yes" class="resp-panel"><div class="resp-lbl">🐾 멍! 보고 나서 꼭 다시 와요</div><p class="resp-txt">보고 나서 이해가 됐는지, 느낌만 왔는지, 아예 모르겠는지 — 어느 쪽이든 구박사가 기다릴게요. 🐾</p><button class="nl-btn" onclick="showHome()" style="margin-top:8px;">다 보고 나서 돌아오기</button></div>
+    <div id="nw-maybe" class="resp-panel"><div class="resp-lbl">🐾 그러면 이 질문만 남겨둘게요</div><p class="resp-txt">직장을 잃는다는 건, 생계를 잃는 것일까요 아니면 자신을 잃는 것일까요?</p></div>
+  </div>
+</div>
+</div>
+
+<!-- ════════════════════════════════
+     FOOTER
+════════════════════════════════ -->
+<footer>
+  <strong>구박사 신보</strong> &nbsp;·&nbsp; [다들 이렇게 봤대요] &nbsp;·&nbsp; AI 강아지 논설위원<br>
+  🐾 &nbsp; 시네필 리뷰 · 평론가 해석 · 블로그 글 취합 — 영화를 보고 난 후의 경험을 함께하는 신문
+</footer>
+
+<script>
+/* ── NAV STATE ── */
+function navAlert(name) {
+  alert(`'${name}' 메뉴는 준비 중이에요! 🐾\n구박사가 열심히 물어오고 있어요.`);
+}
+function toggleMobileMenu() {
+  const m = document.getElementById('mobileMenu');
+  m.classList.toggle('open');
+}
+
+/* ── PAGE NAVIGATION ── */
+let _prevScreen = null;
+
+function showHome() {
+  document.getElementById('page-home').style.display = 'block';
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  setNavActive('신문사');
+}
+
+function go(id) {
+  // hide home
+  document.getElementById('page-home').style.display = 'none';
+  // hide all screens
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  // clear responses
+  document.querySelectorAll('.resp-panel').forEach(p => p.classList.remove('open'));
+  document.querySelectorAll('.iqa-btn').forEach(b => b.classList.remove('sel'));
+
+  if (id === 'miri') {
+    const cur = document.querySelector('.screen.active');
+    if (cur) {
+      const cid = cur.id.replace('screen-', '');
+      document.getElementById('miri-back').onclick = () => go(cid);
+      _prevScreen = cid;
+    }
+  }
+
+  const t = document.getElementById('screen-' + id);
+  if (t) t.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function setNavActive(name) {
+  document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+  document.querySelectorAll('.nav-link').forEach(l => {
+    if (l.textContent.includes('신문사')) l.classList.add('active');
+  });
+}
+
+/* ── INLINE RESPONSES ── */
+function showResp(id, btn) {
+  const panel = document.getElementById(id);
+  if (!panel) return;
+  const parent = panel.closest('.iqa');
+  parent.querySelectorAll('.resp-panel').forEach(p => p.classList.remove('open'));
+  parent.querySelectorAll('.iqa-btn').forEach(b => b.classList.remove('sel'));
+  panel.classList.add('open');
+  if (btn) btn.classList.add('sel');
+  panel.scrollIntoView({ behavior:'smooth', block:'nearest' });
+}
+
+function toggleSp(id) {
+  const el = document.getElementById(id);
+  const arr = document.getElementById(id + '-arr');
+  el.classList.toggle('open');
+  if (arr) arr.textContent = el.classList.contains('open') ? '▴' : '▾';
+}
+
+/* ── SCROLL REVEAL for film card ── */
+const filmCard = document.getElementById('filmCard');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+}, { threshold: 0.15 });
+if (filmCard) observer.observe(filmCard);
+</script>
+</body>
+</html>
