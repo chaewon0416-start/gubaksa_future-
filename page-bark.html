@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>멍통신 — 구박사 신보</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700;900&family=Noto+Sans+KR:wght@300;400;500;700&family=UnifrakturMaguntia&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+</head>
+<body>
+
+<!-- ═══ NAV ═══ -->
+<nav class="nav">
+  <div class="nav-inner">
+    <button class="nav-logo" onclick="location.href='gubaksa.html'">구박사 신보</button>
+    <div class="nav-rule"></div>
+    <div class="nav-links">
+      <button class="nav-link" onclick="location.href='gubaksa.html'">🏠 신문사</button>
+      <button class="nav-link active">🐕 멍통신</button>
+      <button class="nav-link" onclick="location.href='page-archive.html'">📰 신문 더미</button>
+      <button class="nav-link" onclick="location.href='page-popular.html'">🔥 인기호</button>
+      <button class="nav-link" onclick="location.href='page-latest.html'">✨ 최신호</button>
+    </div>
+    <div class="nav-search">
+      <span class="nav-search-icon">👃</span>
+      <input type="text" placeholder="냄새 맡기…">
+    </div>
+    <button class="nav-hamburger" onclick="toggleMobileMenu()">☰</button>
+  </div>
+</nav>
+
+<div class="nav-mobile-menu" id="mobileMenu">
+  <button class="nav-mobile-link" onclick="location.href='gubaksa.html'">🏠 신문사</button>
+  <button class="nav-mobile-link active">🐕 멍통신</button>
+  <button class="nav-mobile-link" onclick="location.href='page-archive.html'">📰 신문 더미</button>
+  <button class="nav-mobile-link" onclick="location.href='page-popular.html'">🔥 인기호</button>
+  <button class="nav-mobile-link" onclick="location.href='page-latest.html'">✨ 최신호</button>
+  <button class="nav-mobile-link" onclick="toggleMobileMenu()">👃 냄새 맡기</button>
+</div>
+
+<!-- ═══ BODY ═══ -->
+<div class="page-wrap">
+
+  <!-- 마스트헤드 -->
+  <div class="page-masthead">
+    <div class="page-mast-top">
+      <div class="page-mast-meta">구박사 편집부<br>멍통신</div>
+      <div class="page-mast-name">구박사 신보</div>
+      <div class="page-mast-meta" style="text-align:right;">AI 강아지 논설위원<br>개 구(狗) · 입 구(口)</div>
+    </div>
+  </div>
+  <div class="rule-wrap"><div class="rule-double"></div></div>
+  <div class="mast-tagrow">
+    <span>독자님들의 목소리를 모읍니다!</span>
+    <span>🐾 멍통신 🐾</span>
+    <span>리뷰 · 감상 · 한마디</span>
+  </div>
+  <div class="rule-wrap"><div class="rule-thin"></div></div>
+  <div class="section-band">
+    <div class="band-inner">[멍통신] — 독자 제보 코너</div>
+    <div class="series-pill">영화를 보고 나서 하고 싶은 말, 구박사가 모아드려요</div>
+  </div>
+
+  <!-- 페이지 히어로 -->
+  <div class="page-hero">
+    <div class="page-kicker">멍통신 · WoofChat</div>
+    <h1 class="page-title">구박사 특파원이<br>제보 받아요!</h1>
+    <p class="page-subtitle">작은 한마디부터 중요한 제보까지, 무엇이든 멍통신으로 보내주세요.<br>구박사가 꼼꼼히 읽어볼게요!</p>
+  </div>
+
+  <!-- 컨텐츠 -->
+  <div class="page-content">
+    <div class="bark-layout">
+
+      <!-- 왼쪽: 폼 + 목록 -->
+      <div>
+        <!-- 소개 -->
+        <div class="bark-intro">
+          <div class="bark-intro-title">이런 말을 남겨주세요</div>
+          <div class="bark-intro-text">
+            "이 장면이 기억에 남아요" "무슨 내용인지 모르겠어요ㅠㅠ" "너무 좋았어요" "조금 불편했어요" —<br>
+            어떤 말이든 다 환영이에요. 구박사가 열심히 읽을게요. 🐾
+          </div>
+        </div>
+
+        <!-- 입력 폼 -->
+        <div class="bark-form">
+          <label class="bark-form-label">어떤 영화에 대한 이야기인가요?</label>
+          <select class="bark-film-select" id="barkFilm">
+            <option value="">— 영화를 선택하세요 —</option>
+            <option value="어쩔수가없다" selected>《어쩔수가없다》 · 박찬욱 · 제 1호</option>
+  
+            <option value="기타">기타 영화</option>
+          </select>
+          <label class="bark-form-label">한마디 남겨주세요</label>
+          <textarea class="bark-textarea" id="barkText" placeholder="여기에 자유롭게 적어주세요…" maxlength="300" oninput="updateCount()"></textarea>
+          <div class="bark-form-foot">
+            <span class="bark-char-count"><span id="charCount">0</span> / 300</span>
+            <button class="bark-submit" onclick="submitBark()">🐾 통신 보내기</button>
+          </div>
+        </div>
+
+        <!-- 목록 헤더 -->
+        <div class="bark-entries-header">
+          <span class="bark-entries-title">구박사 모음 zip</span>
+          <span class="bark-entries-count" id="entryCount">0개의 통신</span>
+        </div>
+
+        <!-- 목록 -->
+        <div id="barkList">
+        </div><!-- /#barkList -->
+      </div><!-- /left col -->
+
+      <!-- 오른쪽: 사이드바 -->
+      <aside class="bark-sidebar">
+
+        <div class="widget">
+          <div class="widget-head">이번 호 영화</div>
+          <div class="widget-body">
+            <div class="widget-film">《어쩔수가없다》</div>
+            <div class="widget-meta">
+              감독: 박찬욱<br>
+              주연: 이병헌, 손예진<br>
+              장르: 블랙코미디 · 구직 스릴러<br>
+              개봉: 2025
+            </div>
+            <div class="widget-tags">
+              <span class="widget-tag">신자유주의</span>
+              <span class="widget-tag">블랙코미디</span>
+              <span class="widget-tag">가부장제</span>
+              <span class="widget-tag">자동화</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="widget">
+          <div class="widget-head">통신 통계</div>
+          <div class="widget-body">
+            <div class="widget-stat">
+              <span class="widget-stat-label">총 독자 반응</span>
+              <span class="widget-stat-value" id="totalBarks">0개</span>
+            </div>
+            <div class="widget-stat">
+              <span class="widget-stat-label">이번 호 영화</span>
+              <span class="widget-stat-value">0개</span>
+            </div>
+            <div class="widget-stat">
+              <span class="widget-stat-label">오늘 새 반응</span>
+              <span class="widget-stat-value">0개</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="widget">
+          <div class="widget-head">다른 코너</div>
+          <div class="widget-body" style="display:flex;flex-direction:column;gap:8px;">
+            <button onclick="location.href='gubaksa.html'" style="background:none;border:1px solid var(--border);padding:8px 12px;font-family:'Pretendard',serif;font-size:0.82rem;cursor:pointer;text-align:left;color:var(--ink);transition:all 0.16s;" onmouseover="this.style.background='var(--ink)';this.style.color='var(--cream)'" onmouseout="this.style.background='none';this.style.color='var(--ink)'">
+              🏠 신문사 — 이번 호 리뷰 보기
+            </button>
+            <button onclick="location.href='page-popular.html'" style="background:none;border:1px solid var(--border);padding:8px 12px;font-family:'Pretendard',serif;font-size:0.82rem;cursor:pointer;text-align:left;color:var(--ink);transition:all 0.16s;" onmouseover="this.style.background='var(--ink)';this.style.color='var(--cream)'" onmouseout="this.style.background='none';this.style.color='var(--ink)'">
+              🔥 인기호
+            </button>
+            <button onclick="location.href='page-archive.html'" style="background:none;border:1px solid var(--border);padding:8px 12px;font-family:'Pretendard',serif;font-size:0.82rem;cursor:pointer;text-align:left;color:var(--ink);transition:all 0.16s;" onmouseover="this.style.background='var(--ink)';this.style.color='var(--cream)'" onmouseout="this.style.background='none';this.style.color='var(--ink)'">
+              📰  신문더미
+            </button>
+          </div>
+        </div>
+
+      </aside>
+    </div><!-- /.bark-layout -->
+  </div><!-- /.page-content -->
+
+</div><!-- /.page-wrap -->
+
+<footer>
+  <strong>구박사 신보</strong> &nbsp;·&nbsp; 멍통신 — 독자 반응 코너 &nbsp;·&nbsp; AI 강아지 논설위원<br>
+  🐾 &nbsp; AI 강아지의 시네필 리뷰 · 평론가 해석 · 블로그 글 취합 — 영화를 보고 난 후의 경험을 함께하는 신문
+</footer>
+
+<script src="shared.js"></script>
+<script>
+const SAMPLE_NAMES = ['익명의 강아지', '씨네독자', '영화좋아요', '멍멍관객', '리뷰쓰는개', '영화읽는사람', '시네필_짖기'];
+
+function updateCount() {
+  const len = document.getElementById('barkText').value.length;
+  document.getElementById('charCount').textContent = len;
+}
+
+function submitBark() {
+  const film  = document.getElementById('barkFilm').value;
+  const text  = document.getElementById('barkText').value.trim();
+
+  if (!film) { alert('어떤 영화에 대한 이야기인지 알려주세요! 🐾'); return; }
+  if (!text)  { alert('한마디 남겨주세요! 🐾'); return; }
+  if (text.length < 5) { alert('조금 더 길게 써줘요! 🐾'); return; }
+
+  const list = document.getElementById('barkList');
+  const entry = document.createElement('div');
+  entry.className = 'bark-entry';
+
+  const filmLabel = document.getElementById('barkFilm').options[document.getElementById('barkFilm').selectedIndex].text.split('·')[0].trim();
+  const isCurrent = film === '어쩔수가없다';
+  const name = SAMPLE_NAMES[Math.floor(Math.random() * SAMPLE_NAMES.length)];
+
+  entry.innerHTML = `
+    <div class="bark-entry-head">
+      <span class="bark-entry-name">${name}</span>
+      <span class="bark-entry-time">방금 전</span>
+    </div>
+    <div class="bark-entry-text">${text.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</div>
+    <span class="bark-entry-film-tag${isCurrent ? ' current' : ''}">${filmLabel}</span>
+  `;
+
+  list.insertBefore(entry, list.firstChild);
+
+  // 개수 업데이트
+  const countEl = document.getElementById('entryCount');
+  const current = parseInt(countEl.textContent) || 8;
+  countEl.textContent = `${current + 1}개의 짖음`;
+  document.getElementById('totalBarks').textContent = `${current + 1}개`;
+
+  // 초기화
+  document.getElementById('barkText').value = '';
+  document.getElementById('barkFilm').value = '';
+  document.getElementById('charCount').textContent = '0';
+
+  entry.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+</script>
+</body>
+</html>
