@@ -223,9 +223,9 @@ footer strong { color:#b0a080; }
 }
 .mast-tagrow {
   max-width:1100px; margin:0 auto; width:100%; padding:0 24px;
-  display:flex; justify-content:space-between; align-items:center;
+  display:flex; justify-content:space-between; align-items:center; flex-wrap:nowrap; gap:12px;
   padding-top:3px; padding-bottom:4px;
-  font-family:'Pretendard',sans-serif; font-size:0.61rem;
+  font-family:'Pretendard',sans-serif; font-size:0.52rem;
   color:var(--ink-lt); letter-spacing:0.07em;
 }
 
